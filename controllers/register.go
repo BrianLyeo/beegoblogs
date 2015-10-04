@@ -20,6 +20,7 @@ func (c *RegisterController) Post() {
 	var account models.Account
 	err := parseAccount(&c.Controller, &account)
 	if err != nil {
+		//c.Ctx.ResponseWriter.WriteHeader(400)
 		c.Data["Operation"] = "Register"
 		c.Data["Reason"] = "Input Someting Invalid"
 		c.TplNames = "common_failed.tpl"
@@ -28,6 +29,7 @@ func (c *RegisterController) Post() {
 	
 	err = models.CreateNewAccount(&account)
 	if err != nil {
+		//c.Ctx.ResponseWriter.WriteHeader(400)
 		c.Data["Operation"] = "Register"
 		existAccount, _ := models.QueryAccountByEmail(account.EMail)
 		if existAccount != nil {
