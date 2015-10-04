@@ -4,9 +4,10 @@
 <head>
 	<title>Register New Account</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="/static/input_checker.js"></script>
 </head>
 <body>
-	<form name="register" action="register" method="post">
+	<form name="register" action="register" onsubmit="return validate_form(this);" method="post">
 	Your E-Mail:
 	<input type="text" name="email" />
 	<br />

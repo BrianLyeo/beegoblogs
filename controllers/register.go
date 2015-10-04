@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"time"
 	"errors"
 	"beegoblogs/models"
 	"github.com/astaxie/beego"
@@ -20,17 +20,26 @@ func (c *RegisterController) Post() {
 	var account models.Account
 	err := parseAccount(&c.Controller, &account)
 	if err != nil {
-		c.Redirect("/login_failed2.html", 302)
-		log.Fatal(err)
+		c.Data["Operation"] = "Register"
+		c.Data["Reason"] = "Input Someting Invalid"
+		c.TplNames = "common_failed.tpl"
 		return
 	}
 	
 	err = models.CreateNewAccount(&account)
 	if err != nil {
-		c.Redirect("/login_failed3.html", 302)
-		log.Fatal(err)
+		c.Data["Operation"] = "Register"
+		existAccount, _ := models.QueryAccountByEmail(account.EMail)
+		if existAccount != nil {
+			c.Data["Reason"] = "Your Email is Used by Others"
+		} else {
+			c.Data["Reason"] = "Something Error, Try Later"
+		}
+		c.TplNames = "common_failed.tpl"
 		return
 	}
+	
+	c.Ctx.ResponseWriter.Write([]byte("Success"))
 }
 
 func parseAccount(ctx *beego.Controller, account *models.Account) error {
@@ -61,6 +70,18 @@ func parseAccount(ctx *beego.Controller, account *models.Account) error {
 		err = errors.New("showemail miss")
 		return err
 	}
+	
+	account.EMail = email
+	account.Password = password
+	account.DisplayName = name
+	account.CreateTime = time.Now()
+	account.LastLoginTime = time.Now()
+	if showemail == "show" {
+		account.ShowEmail = true
+	} else {
+		account.ShowEmail = false
+	}
+	account.Level = 0
 	
 	return err
 }
