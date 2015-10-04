@@ -1,4 +1,4 @@
-package modules
+package models
 
 import (
 	"log"
@@ -16,8 +16,16 @@ type Account struct {
 	Level			int
 }
 
-func CreateNewAccount(account Account) error {
+func CreateNewAccount(account *Account) error {
 	var lastInsertId int
+	var db *sql.DB
+	var err error
+	db, err = BorrowDBConn()
+	if err != nil {
+		return err
+	}
+	
+	defer ReleaseDBConn(db)
 	err = db.QueryRow(
 		`INSERT INTO users(
 			email,
@@ -34,11 +42,11 @@ func CreateNewAccount(account Account) error {
 			account.CreateTime,
 			account.CreateTime,
 			account.ShowEmail,
-			account.Level
-		).Scan(&lastInsertId)
+			account.Level).Scan(&lastInsertId)
 	if err != nil {
 		return err
 	}
 	
 	log.Println("Create New Account with Id %d\n", lastInsertId)
+	return nil
 }

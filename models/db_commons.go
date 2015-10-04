@@ -1,7 +1,8 @@
-package modules
+package models
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/lib/pq"
 )
 
@@ -11,12 +12,12 @@ const (
     DB_NAME     = "godb"
 )
 
-func BorrowDBConn() (*DB, error) {
+func BorrowDBConn() (*sql.DB, error) {
 	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
         DB_USER, DB_PASSWORD, DB_NAME)
     return sql.Open("postgres", dbinfo)
 }
 
-func ReleaseDBConn(db *DB) {
+func ReleaseDBConn(db *sql.DB) {
 	db.Close()
 }
