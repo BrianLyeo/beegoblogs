@@ -33,26 +33,13 @@
     </ul>
   </div> <!-- TopNav -->
   
-  <div id="LoginForm">
-    <form name="login" action="login" method="post">
-      <div id="FormText">
-        Your E-Mail:
-      </div>
-      <div id="FormInput">
-        <input type="text" name="email" />
-      </div>
-      <br />
-      <div id="FormText">
-        Your Password:
-      </div>
-      <div id="FormInput">
-        <input type="password" name="password" />
-      </div>
-      <br />
-      <div id="FormButton">
-        <input type="submit" name="Submit" />
-      </div>
-    </form>
-  </div> <!-- LoginForm -->
+  <div id="MainPage">
+    {{range $index, $blog := .BlogsList}}
+      <li><a href="/main/{{$blog.Id}}" title="{{$blog.Title}}">{{$blog.Title}} </a></li>
+    {{else}}
+      <h1>No Blogs Here!</h1>
+    {{end}}
+  </div> <!-- MainPage --> 
+  <h1>Current Operation User is {{.User}}</h1>
 </body>
 </html>

@@ -94,7 +94,7 @@ func QueryAccountByEmail(email string) (*Account, error) {
 	}
 	
 	defer ReleaseDBConn(db)
-	rows, err := db.Query("SELECT * FROM users")
+	rows, err := db.Query("SELECT * FROM users where email=$1", email)
 	if err != nil {
 		return nil, err
 	}
