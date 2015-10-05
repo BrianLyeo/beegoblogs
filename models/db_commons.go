@@ -3,18 +3,17 @@ package models
 import (
 	"database/sql"
 	"fmt"
+	"github.com/astaxie/beego"
 	_ "github.com/lib/pq"
 )
 
-const (
-    DB_USER     = "postgres"
-    DB_PASSWORD = "quanzhang"
-    DB_NAME     = "godb"
-)
-
 func BorrowDBConn() (*sql.DB, error) {
+	db_user := beego.AppConfig.String("mysqluser")
+	db_pass := beego.AppConfig.String("mysqlpass")
+	db_name := beego.AppConfig.String("mysqldb")
+	
 	dbinfo := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
-        DB_USER, DB_PASSWORD, DB_NAME)
+        db_user, db_pass, db_name)
     return sql.Open("postgres", dbinfo)
 }
 
