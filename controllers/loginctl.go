@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"beegoblogs/models"
 	"github.com/astaxie/beego"
 )
 
@@ -13,8 +14,11 @@ func (c *LoginController) Get() {
 }
 
 func (c *LoginController) Post() {
+	email := c.GetString("email")
 	passwd := c.GetString("password")
-	if passwd == "" || passwd[0] != 'p' {
+	
+	account, err := models.QueryAccountByEmail(email)
+	if err != nil || account == nil || account.Password != passwd {
 		c.Data["Timeout"] = "2"
 		c.Data["URL"] = "/static/page/login_failed.html"
 	} else {

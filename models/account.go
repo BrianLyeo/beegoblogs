@@ -102,7 +102,7 @@ func QueryAccountByEmail(email string) (*Account, error) {
 	var account Account
 	for rows.Next() {
         err = rows.Scan(&account.Id,
-			&account.EMail, &account.Password, &account.DisplayName,
+			&account.EMail, &account.DisplayName, &account.Password,
 			&account.CreateTime, &account.LastLoginTime, &account.ShowEmail,
 			&account.Level)
         if err != nil {

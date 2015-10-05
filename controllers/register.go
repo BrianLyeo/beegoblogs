@@ -38,6 +38,7 @@ func (c *RegisterController) Post() {
 			c.Data["Reason"] = "Something Error, Try Later"
 		}
 		c.TplNames = "common_failed.tpl"
+		
 		return
 	}
 	
