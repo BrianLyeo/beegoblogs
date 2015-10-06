@@ -42,6 +42,13 @@ func (c *LoginController) Get() {
 		if sess.Get("user-email") != nil {
 			c.TplNames = "welcome.tpl"
 		} else {
+			c.Layout = "layout/layout_blog.html"
+		    c.TplNames = "login.tpl"
+		    c.LayoutSections = make(map[string]string)
+		    c.LayoutSections["HtmlHead"] = "layout/html_head.html"
+			c.LayoutSections["TopNav"] = "layout/top_nav.html"
+		    c.LayoutSections["Scripts"] = "layout/scripts.html"
+		    c.LayoutSections["Sidebar"] = ""
 			c.TplNames = "login.tpl"
 		}
 	}

@@ -9,5 +9,5 @@ type LoginSuccessController struct {
 }
 
 func (c *LoginSuccessController)Get() {
-	c.TplNames = "welcome.tpl"
+    c.TplNames = "welcome.tpl"
 }

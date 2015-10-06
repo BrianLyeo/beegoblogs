@@ -12,7 +12,13 @@ type RegisterController struct {
 }
 
 func (c *RegisterController) Get() {
-	c.TplNames = "register.tpl"
+	c.Layout = "layout/layout_blog.html"
+    c.TplNames = "register.tpl"
+    c.LayoutSections = make(map[string]string)
+    c.LayoutSections["HtmlHead"] = "layout/html_head.html"
+	c.LayoutSections["TopNav"] = "layout/top_nav.html"
+    c.LayoutSections["Scripts"] = "layout/scripts.html"
+    c.LayoutSections["Sidebar"] = ""
 }
 
 func (c *RegisterController) Post() {
